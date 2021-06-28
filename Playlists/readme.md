@@ -1,3 +1,3 @@
 
-![Screenshot of the app. At the top is 'French baroque' in large type, followed by a 'Load playlist file' and 'Download playlist file' sections, which are disabled. Below the top is a vertical list of boxes, each with a song title and artist on the left, and a button labeled 'Open' on the right. The page elements have blue colour tones.](screenshot.png)
+![Screenshot of the app, organised as a vertical list of sections. First a playlist title with an edit button. Then a series of song boxes, each with song title and artist on the left and 'Open' button on the right. Then an 'introduce song into playlist' for inputting new songs. Then 'playlist files on computer', with disabled buttons for loading a playlist file and downloading one.](screenshot.png)
 

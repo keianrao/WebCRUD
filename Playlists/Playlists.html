@@ -26,23 +26,33 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 	
 	<BODY>
 	
-		<DIV ID="root">
-			<DIV ID="top">
-				<H1 CLASS="title">{{ playlist.name }}</H1>		
-				<SPAN>
-					<LABEL FOR='load'>Load playlist file: </LABEL>
-					<INPUT DISABLED ID='load' TYPE='file' ACCEPT=".json" />
-				</SPAN>
-				<SPAN>
-					<BUTTON DISABLED ID='save'>Download playlist file</BUTTON>
-				</SPAN>
-				</SPAN>
-			</DIV>
-			<SONG
-				V-FOR="song in playlist.songs"
-				:KEY="song.artist + ':' + song.title"
-				:SONG="song"
-			/>
+		<DIV ID="vue">
+			<PLAYLIST-INFO :PLAYLIST="playlist"></PLAYLIST-INFO>
+			<TEMPLATE>
+				<SONG
+					V-FOR="song in playlist.songs" :SONG="song"
+					:KEY="song.artist + ':' + song.title"
+				/>
+			</TEMPLATE>
+			<FIELDSET ID="compose">
+				<LEGEND>Introduce song into playlist</LEGEND>
+				<LABEL FOR="input-title">Title: </LABEL>
+				<INPUT ID="input-title" TYPE="text"></INPUT>
+				<LABEL FOR="input-artist">Artist: </LABEL>
+				<INPUT ID="input-artist" TYPE="text"></INPUT>
+				<BR>
+				<LABEL FOR="input-link">Link: </LABEL>
+				<INPUT ID="input-link" TYPE="text"></INPUT>
+				<BUTTON @CLICK="inputSong">Submit</BUTTON>
+			</FIELDSET>
+			<FIELDSET ID="local-io">
+				<LEGEND>Playlist files on computer</LEGEND>
+				(1)
+				<LABEL FOR='load'>Load playlist file: </LABEL>
+				<INPUT DISABLED ID='load' TYPE='file' ACCEPT=".json" />
+				(2)
+				<BUTTON DISABLED ID='save'>Download playlist file</BUTTON>
+			</FIELDSET>
 		</DIV>
 		
 		<DIV ID="nojs">

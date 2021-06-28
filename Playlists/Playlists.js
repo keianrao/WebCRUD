@@ -31,9 +31,9 @@ Vue.component('extlink', {
 	computed: {
 		"domain": function() {
 			var match = this.link.match(
-				/(.*):\/\/(.*?\.)?(.*)\/.*/
+				/(.*):\/\/(.*?)\/.*/
 			);
-			return (match) ? match[3] : null;
+			return (match) ? match[2] : null;
 		}
 	}
 });
@@ -53,8 +53,42 @@ Vue.component('song', {
 	`
 });
 
+Vue.component('playlist-info', {
+	props: [ 'playlist' ],
+	template: `
+		<div class='playlist-info'>
+			<template v-if="!editingName">
+				<h1 class='name'>{{ playlist.name }}</h1>
+				<button @click='startEditing'>Edit playlist name</button>
+			</template>
+			<template v-else>
+				<label for='input-name'>Playlist name:</label>
+				<input id='input-name' type='text' v-model='editedName' />
+				<button @click='stopEditing(true)'>Save</button>
+				<button @click='stopEditing(false)'>Cancel</button>
+			</template>
+		</div>
+	`,
+	data: function() {
+		return {
+			editingName: false,
+			editedName: this.playlist.name
+		};
+	},
+	methods: {
+		"startEditing": function() {
+			this.editedName = this.playlist.name;
+			this.editingName = true;
+		},
+		"stopEditing": function(confirm) {
+			if (confirm) this.playlist.name = this.editedName;
+			this.editingName = false;
+		},
+	}
+});
+
 var app = new Vue({
-	el: "#root",
+	el: "#vue",
 	data: {
 		playlist: {
 			name: 'French baroque',
@@ -80,6 +114,26 @@ var app = new Vue({
 					link: "https://www.youtube.com/watch?v=Sy-yugPw_X8"
 				}
 			]
+		}
+	},
+	methods: {
+		"inputSong": function() {
+			const titleInput = document.getElementById("input-title");
+			const artistInput = document.getElementById("input-artist");
+			const linkInput = document.getElementById("input-link");
+			var song = {
+				title: titleInput.value,
+				artist: artistInput.value,
+				link: linkInput.value
+			};
+			if (!song.title || !song.artist || !song.link) {
+				return;
+				// We should be indicating an error..
+			}
+			this.playlist.songs.push(song);
+			titleInput.value = "";
+			artistInput.value = "";
+			linkInput.value = "";
 		}
 	}
 });
