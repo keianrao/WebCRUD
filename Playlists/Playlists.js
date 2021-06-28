@@ -134,11 +134,36 @@ var app = new Vue({
 			titleInput.value = "";
 			artistInput.value = "";
 			linkInput.value = "";
+		},
+		"loadSelectedFile": function() {
+			const file = document.getElementById("load").files[0];
+			const url = URL.createObjectURL(file);
+			
+			var req = new XMLHttpRequest();
+			req.open("GET", url);
+			req.onload = function() {
+				var playlist = JSON.parse(req.responseText);
+				// Again, we should show errors.
+				this.playlist = playlist;
+			}.bind(this);
+			req.send();
+			
+			URL.revokeObjectURL(url);
+		},
+		"downloadFile": function() {
+			const data = JSON.stringify(this.playlist);
+			const url = URL.createObjectURL(new Blob([data]));
+			
+			var memoryAnchor = document.createElement("a");
+			memoryAnchor.href = url;
+			memoryAnchor.download = "playlist.json";
+			// Makes the 'download' attribute exist, and
+			// if it has a value it's taken as a filename suggestion.
+			memoryAnchor.click();
+			
+			URL.revokeObjectURL(url);
+			// Race condition? But it seems like the click did block.
 		}
 	}
 });
 
-/*
-We need CRUD functionality..!
-This page has little reason to exist otherwise..
-*/

@@ -49,9 +49,15 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 				<LEGEND>Playlist files on computer</LEGEND>
 				(1)
 				<LABEL FOR='load'>Load playlist file: </LABEL>
-				<INPUT DISABLED ID='load' TYPE='file' ACCEPT=".json" />
+				<INPUT
+					ID='load'
+					TYPE='file' ACCEPT=".json"
+					@CHANGE="loadSelectedFile"
+					/>
 				(2)
-				<BUTTON DISABLED ID='save'>Download playlist file</BUTTON>
+				<BUTTON ID='save' @CLICK="downloadFile">
+					Download playlist file
+				</BUTTON>
 			</FIELDSET>
 		</DIV>
 		
