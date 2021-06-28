@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+
+<!--
+This file is part of 'Playlists'.
+©2021 Keian Rao <keian.rao@gmail.com>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<HTML>
+
+	<META CHARSET="utf-8" />
+	
+	<LINK REL="stylesheet" HREF="Playlists.css" />
+	
+	<BODY>
+	
+		<DIV ID="root">
+			<DIV ID="top">
+				<H1 CLASS="title">{{ playlist.name }}</H1>		
+				<SPAN>
+					<LABEL FOR='load'>Load playlist file: </LABEL>
+					<INPUT DISABLED ID='load' TYPE='file' ACCEPT=".json" />
+				</SPAN>
+				<SPAN>
+					<BUTTON DISABLED ID='save'>Download playlist file</BUTTON>
+				</SPAN>
+				</SPAN>
+			</DIV>
+			<SONG
+				V-FOR="song in playlist.songs"
+				:KEY="song.artist + ':' + song.title"
+				:SONG="song"
+			/>
+		</DIV>
+		
+		<DIV ID="nojs">
+			Apologies.. this is a JavaScript web application.
+		</DIV>
+		
+	</BODY>
+	
+	<SCRIPT SRC="/usr/share/javascript/vue/vue.js"></SCRIPT>
+	<!--
+		Only visitors on Debian will be able to run this app. Amazing.
+		
+		On distribution, we can fetch a project-local copy using that path.
+		Or, replace with another update system as you please.
+	-->
+	<SCRIPT SRC="Playlists.js"></SCRIPT>
+	
+</HTML>
