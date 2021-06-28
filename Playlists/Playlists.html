@@ -32,7 +32,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 				<SONG
 					V-FOR="song in playlist.songs" :SONG="song"
 					:KEY="song.artist + ':' + song.title"
+					@SONGREMOVE="removeFromPlaylist(song)"
 				/>
+				<!--
+				Not exactly the pinnacle of design..
+				-->
 			</TEMPLATE>
 			<FIELDSET ID="compose">
 				<LEGEND>Introduce song into playlist</LEGEND>

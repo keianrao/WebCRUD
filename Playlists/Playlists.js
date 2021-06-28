@@ -21,9 +21,7 @@ document.getElementById("nojs").remove();
 Vue.component('extlink', {
 	props: [ 'link' ],
 	template: `
-		<a
-				v-if="link"
-				class='link' :href='link' target='_blank'>
+		<a v-if="link" class='link' :href='link' target='_blank'>
 			Open
 			<span v-if="domain">({{ domain }})</span>
 		</a>
@@ -47,10 +45,26 @@ Vue.component('song', {
 				<span class='artist'>{{ song.artist }}</span>
 			</span>
 			<span class='right'>
+				<button 
+						@click="removeSong" 
+						alt="Remove from playlist">
+					X
+				</button>
 				<extlink :link='song.link' />
 			</span>
 		</div>
-	`
+	`,
+	methods: {
+		"removeSong": function() {
+			var response = window.confirm(
+				"This deletes this song from the playlist.\n" +
+				"Are you sure you'd like to do so?"
+			);
+			if (response == false) return;
+			
+			this.$emit('songremove');
+		}
+	}
 });
 
 Vue.component('playlist-info', {
@@ -81,9 +95,11 @@ Vue.component('playlist-info', {
 			this.editingName = true;
 		},
 		"stopEditing": function(confirm) {
+			if (this.editedName.trim() == '') confirm = false;
+		
 			if (confirm) this.playlist.name = this.editedName;
 			this.editingName = false;
-		},
+		}
 	}
 });
 
@@ -127,25 +143,53 @@ var app = new Vue({
 				link: linkInput.value
 			};
 			if (!song.title || !song.artist || !song.link) {
+				window.alert("Please leave no fields unfilled");
 				return;
-				// We should be indicating an error..
 			}
 			this.playlist.songs.push(song);
 			titleInput.value = "";
 			artistInput.value = "";
 			linkInput.value = "";
 		},
+		"removeFromPlaylist": function(song) {
+			this.playlist.songs.splice(this.playlist.songs.indexOf(song), 1);
+		},
 		"loadSelectedFile": function() {
 			const file = document.getElementById("load").files[0];
 			const url = URL.createObjectURL(file);
 			
+			var loadOk = function() {
+				var playlist = null;
+				try {
+					playlist = JSON.parse(req.responseText);
+				}
+				catch (syntaxError) {
+					window.alert(
+						"Parsing of file failed!\n"
+						+ syntaxError.message
+					);
+					return;
+				}
+				if (!playlist.name || !playlist.songs) {
+					window.alert(
+						"We read the file fine, but..\n" +
+						"this doesn't seem like a playlist file to me."
+					);
+					return;
+				}
+				this.playlist = playlist;
+			}.bind(this);
+			var loadFail = function() {
+				window.alert("Sorry! Loading the file failed..");
+			}
+			
 			var req = new XMLHttpRequest();
 			req.open("GET", url);
 			req.onload = function() {
-				var playlist = JSON.parse(req.responseText);
-				// Again, we should show errors.
-				this.playlist = playlist;
-			}.bind(this);
+				if (req.status == 200) loadOk();
+				else loadFail();
+			}
+			req.onerror = loadFail;
 			req.send();
 			
 			URL.revokeObjectURL(url);
