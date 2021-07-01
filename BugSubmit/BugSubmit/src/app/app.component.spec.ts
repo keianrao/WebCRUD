@@ -29,3 +29,7 @@ describe('AppComponent', () => {
     expect(compiled.querySelector('.content span').textContent).toContain('BugSubmit app is running!');
   });
 });
+
+/*
+What do these tests mean? Were they meant for only the sample page?
+*/

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LabeledInputComponent } from './labeled-input/labeled-input.component'
 
 @Component({
   selector: 'app-root',
