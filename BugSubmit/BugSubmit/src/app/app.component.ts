@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { LabeledInputComponent } from './labeled-input/labeled-input.component'
 
 @Component({
   selector: 'app-root',
@@ -8,4 +7,5 @@ import { LabeledInputComponent } from './labeled-input/labeled-input.component'
 })
 export class AppComponent {
   title = 'BugSubmit';
+  DOMID = 'bug-submit-1';
 }

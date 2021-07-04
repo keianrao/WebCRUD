@@ -1,9 +1,0 @@
-.labeled-input {
-	margin: 4px;
-}
-.labeled-input > * {
-	margin: 2px 0;
-}
-.labeled-input > label {
-	font-style: italic;
-}

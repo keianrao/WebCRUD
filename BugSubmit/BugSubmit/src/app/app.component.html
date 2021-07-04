@@ -1,26 +1,24 @@
 <h1>Bug submit</h1>
 
-<labeled-input label="Name" type="text"></labeled-input>
-<labeled-input label="E-mail" type="text"></labeled-input>
+<div class="grid">
+	<label>Name</label>
+	<input type="text" />
+	<label>Email</label>
+	<input type="text" />
 
-<labeled-input label="Project" type="text"></labeled-input>
-<labeled-input label="Version" type="text"></labeled-input>
-<labeled-input label="Platform" type="text"></labeled-input>
-<!-- These three should be comboboxes. -->
+	<label>Project</label>
+	<select class="full"></select>
+	<label>Version</label>
+	<select></select>
+	<label>Platform</label>
+	<select></select>
 
-<labeled-input label="Summary" type="text"></labeled-input>
-
-<label for="bodyInput">Body: </label>
-<br>
-<textarea id="bodyInput" cols=80 rows=24></textarea>
-<!--
-	So much for fancy component.
-	Do we attempt to make a wrapper instead? Is that even possible?
+	<label>Summary</label>
+	<input class="full" type="text" />
 	
-	We probably shouldn't use custom components, just atomic elements,
-	but how do we style everything properly..? I'd imagine other developers
-	would do something on each of the label-field pairs somehow.
--->
-
-<br>
-<button id="submit">Submit</button>
+	<label>Body</label>
+	<textarea class="body full" rows=20></textarea>
+	
+	<div></div>
+	<button id="submit">Submit</button>
+</div>
