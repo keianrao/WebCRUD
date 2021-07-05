@@ -21,6 +21,10 @@ export class AppComponent {
 	this.badProjectInfo = this.badProjectInfo.bind(this);
 	this.enableForm = this.enableForm.bind(this);
 	this.strangeError = this.strangeError.bind(this);
+	// Kind of weird, changing my methods. But, setup I guess.
+	// Though, [Hamed Nourhani votes for arrow functions over bound methods]
+	// (https://hamednourhani.gitbooks.io/typescript-book/content/docs/tips/\
+	// bind.html), because bind discards type information.
   
   	projectInfoService.fetchAllProjectInfo()
 		.catch(this.fetchError)
