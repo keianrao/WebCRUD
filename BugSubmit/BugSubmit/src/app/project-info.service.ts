@@ -46,7 +46,7 @@ export class ProjectInfoService {
 	fetchAllProjectInfo() {
 		// We should declare a type that we're returning.
 		
-		return this.mockData;
+		return Promise.resolve(this.mockData);
 		// Oui, we doom ourselves to always return an array.
 	}
   

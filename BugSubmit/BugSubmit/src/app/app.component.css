@@ -1,4 +1,10 @@
 
+.status {
+	border: 1px solid #C00000;
+	padding: 20px;
+	margin: 20px;
+}
+
 .grid {
 	display: grid;
 	gap: 16px 8px;

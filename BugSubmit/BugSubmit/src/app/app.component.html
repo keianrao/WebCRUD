@@ -1,24 +1,26 @@
 <h1>Bug submit</h1>
 
+<div class="status" [hidden]="ready">{{ statusMessage }}</div>
+
 <div class="grid">
 	<label>Name</label>
-	<input type="text" />
+	<input type="text" [disabled]="!ready" />
 	<label>Email</label>
-	<input type="text" />
+	<input type="text" [disabled]="!ready" />
 
 	<label>Project</label>
-	<select class="full" disabled></select>
+	<select class="full" [disabled]="!ready"></select>
 	<label>Version</label>
-	<select disabled></select>
+	<select [disabled]="!ready"></select>
 	<label>Platform</label>
-	<select disabled></select>
+	<select [disabled]="!ready"></select>
 
 	<label>Summary</label>
-	<input class="full" type="text" />
+	<input class="full" type="text" [disabled]="!ready" />
 	
 	<label>Body</label>
-	<textarea class="body full" rows=20></textarea>
+	<textarea class="body full" rows=20 [disabled]="!ready"></textarea>
 	
 	<div></div>
-	<button id="submit">Submit</button>
+	<button [disabled]="!ready">Submit</button>
 </div>
