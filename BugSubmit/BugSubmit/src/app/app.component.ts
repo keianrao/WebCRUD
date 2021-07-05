@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ProjectInfoService } from './project-info.service';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +8,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'BugSubmit';
-  DOMID = 'bug-submit-1';
+  
+  // We're supposed to fetch the project info, then unlock our select
+  // elements. Should we be locking the whole form until data load..?
 }
