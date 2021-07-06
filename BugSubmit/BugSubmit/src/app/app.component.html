@@ -1,6 +1,6 @@
 <h1>Bug submit</h1>
 
-<div class="status" [hidden]="ready">{{ statusMessage }}</div>
+<div class="status" [hidden]="!statusMessage">{{ statusMessage }}</div>
 
 <div class="grid">
 	<label>Name</label>
@@ -9,11 +9,30 @@
 	<input type="text" [disabled]="!ready" />
 
 	<label>Project</label>
-	<select class="full" [disabled]="!ready"></select>
+	<select class="full"
+			[disabled]="!ready || availableProjects.length == 0"
+			(change)="selectProject($event.target.value)">
+		<option value="null">(select)</option>
+		<option *ngFor="let project of availableProjects">
+			{{ project }}
+		</option>
+	</select>
 	<label>Version</label>
-	<select [disabled]="!ready"></select>
+	<select [disabled]="!ready || availableVersions.length == 0"
+			(change)="selectVersion($event.target.value)">
+		<option value="null">(select)</option>
+		<option *ngFor="let version of availableVersions">
+			{{ version }}
+		</option>
+	</select>
 	<label>Platform</label>
-	<select [disabled]="!ready"></select>
+	<select [disabled]="!ready || availablePlatforms.length == 0"
+			(input)="selectPlatform($event.target.value)">
+		<option value="null">(select)</option>
+		<option *ngFor="let platform of availablePlatforms">
+			{{ platform }}
+		</option>
+	</select>
 
 	<label>Summary</label>
 	<input class="full" type="text" [disabled]="!ready" />
