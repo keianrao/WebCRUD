@@ -12,18 +12,6 @@
   <select class="full" [disabled]="!ready">
     <option value="null">(select)</option>
     <option *ngFor="let project of availableProjects()">
-      <!--
-      This is rather absurd.. Angular knows what I'm talking about,
-      because if I remove the () it shows me that method's code and
-      says that's not an iterable. But if I call it then it looks for
-      the function in 'ctx' instead, and doesn't find it.
-      
-      I've tried searching on the internet, but, the usual.
-      NgForOf's documentation doesn't tell us much either.
-      
-      I probably have to workaround by observing input.project,
-      updating an exposed availableProjects array.
-      -->
       {{ project }}
     </option>
   </select>

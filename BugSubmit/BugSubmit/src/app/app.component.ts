@@ -44,7 +44,6 @@ export class AppComponent {
   
   integrateProjectInfo = (projectInfo) => {
     this.projectInfo = projectInfo;
-    this.availableProjects = this.getProjects(this.projectInfo);
     // Rather than transform the data to a form suitable for us, I'm
     // just going to live iterate everytime. The form we need (hierarchical
     // dictionary keyed by name) is troublesome to transform this into.
@@ -79,7 +78,7 @@ export class AppComponent {
     console.log(this.input);
   }
   
-  availableProjects = function() {
+  availableProjects() {
     return this.getProjects(this.projectInfo);
   };
   
@@ -97,7 +96,7 @@ export class AppComponent {
     );
   }
   
-    getProjects(projectInfo) {
+  getProjects(projectInfo) {
     return projectInfo.map(project => project.name);
   }
   
