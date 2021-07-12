@@ -3,43 +3,59 @@
 <div class="status" [hidden]="!statusMessage">{{ statusMessage }}</div>
 
 <div class="grid">
-	<label>Name</label>
-	<input type="text" [disabled]="!ready" />
-	<label>Email</label>
-	<input type="text" [disabled]="!ready" />
-
-	<label>Project</label>
-	<select class="full"
-			[disabled]="!ready || availableProjects.length == 0"
-			(change)="selectProject($event.target.value)">
-		<option value="null">(select)</option>
-		<option *ngFor="let project of availableProjects">
-			{{ project }}
-		</option>
-	</select>
-	<label>Version</label>
-	<select [disabled]="!ready || availableVersions.length == 0"
-			(change)="selectVersion($event.target.value)">
-		<option value="null">(select)</option>
-		<option *ngFor="let version of availableVersions">
-			{{ version }}
-		</option>
-	</select>
-	<label>Platform</label>
-	<select [disabled]="!ready || availablePlatforms.length == 0"
-			(input)="selectPlatform($event.target.value)">
-		<option value="null">(select)</option>
-		<option *ngFor="let platform of availablePlatforms">
-			{{ platform }}
-		</option>
-	</select>
-
-	<label>Summary</label>
-	<input class="full" type="text" [disabled]="!ready" />
-	
-	<label>Body</label>
-	<textarea class="body full" rows=20 [disabled]="!ready"></textarea>
-	
-	<div></div>
-	<button [disabled]="!ready">Submit</button>
+  <label>Name</label>
+  <input [(ngModel)]="input.name" type="text" [disabled]="!ready" />
+  <label>Email</label>
+  <input type="text" [disabled]="!ready" />
+  
+  <label>Project</label>
+  <select class="full" [disabled]="!ready">
+    <option value="null">(select)</option>
+    <option *ngFor="let project of availableProjects()">
+      <!--
+      This is rather absurd.. Angular knows what I'm talking about,
+      because if I remove the () it shows me that method's code and
+      says that's not an iterable. But if I call it then it looks for
+      the function in 'ctx' instead, and doesn't find it.
+      
+      I've tried searching on the internet, but, the usual.
+      NgForOf's documentation doesn't tell us much either.
+      
+      I probably have to workaround by observing input.project,
+      updating an exposed availableProjects array.
+      -->
+      {{ project }}
+    </option>
+  </select>
+  <label>Version</label>
+  <select [disabled]="!ready">
+    <option value="null">(select)</option>
+    <!--
+    <option *ngFor="let version of availableVersions()">
+      {{ version }}
+    </option>
+    -->
+  </select>
+  <label>Platform</label>
+  <select [disabled]="!ready">
+    <option value="null">(select)</option>
+    <!--
+    <option *ngFor="let platform of availablePlatforms()">
+      {{ platform }}
+    </option>
+    -->
+  </select>
+  
+  <label>Summary</label>
+  <input [(ngModel)]="input.summary"
+    class="full" type="text" [disabled]="!ready" />
+  
+  <label>Body</label>
+  <textarea [(ngModel)]="input.body"
+    class="body full" rows=20 [disabled]="!ready"></textarea>
+  
+  <div></div>
+  <button (click)="generateAndSubmitBugReport()" [disabled]="!ready">
+    Submit
+  </button>
 </div>

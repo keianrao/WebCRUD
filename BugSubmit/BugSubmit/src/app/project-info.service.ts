@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class ProjectInfoService {
 	mockData = [
 		{
-			name: "Ceirann",
+			name: "otsound",
 			// Are we sure a project would maintain the same name?
 			// My inclination is to also return an array, the
 			// last element being the latest name. But we could also
