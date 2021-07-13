@@ -11,9 +11,11 @@ export class AppComponent {
   statusMessage = "Loading data from the server. Pardon us for the wait..";
   ready = false;
   projectInfo = [];
-  selectedProject = null;
-  selectedVersion = null;
-  selectedPlatform = null;
+  available = {
+    projects: [],
+    versions: [],
+    platforms: []
+  };
   input = {
     name: null,
     email: null,
@@ -24,7 +26,8 @@ export class AppComponent {
     body: null
   };
   
-  constructor(private projectInfoService: ProjectInfoService) {
+  constructor(private projectInfoService: ProjectInfoService)
+  {
     projectInfoService.fetchAllProjectInfo()
       .catch(this.fetchError)
       .then(this.integrateProjectInfo)
@@ -47,6 +50,7 @@ export class AppComponent {
     // Rather than transform the data to a form suitable for us, I'm
     // just going to live iterate everytime. The form we need (hierarchical
     // dictionary keyed by name) is troublesome to transform this into.
+    this.updateAvailables();
   
     return true;
   }
@@ -70,49 +74,60 @@ export class AppComponent {
       + " Sorry; this bug reporter presently won't work.";
   }
   
-  alistFind(array, key, value) {
-    return array.find(elem => elem[key] == value);
+  updateAvailables = () => {
+  
+    let selected = {
+      project: null,
+      version: [],
+      platform: null
+    }; 
+    let available = {
+      projects: [],
+      versions: []
+    };
+    
+    if (this.projectInfo)
+      available.projects = this.projectInfo;
+    
+    selected.project =
+      available.projects.find(p => p.name == this.input.project);
+    
+    if (selected.project)
+      available.versions = selected.project.versions;
+    
+    selected.version =
+      available.versions.filter(v => v.version == this.input.version);
+    /*
+    sic., we are going to get an array back - this is the quirkiness of
+    the structure of projectInfo. When we select a version, we aren't
+    selecting one object, we select many objects of the given version.
+    When we select a platform then we can pin down one object among
+    these, which is what "selected.platform" is set to below.
+    
+    This is also why we don't have "available.platforms",
+    selected.version here plays that object.
+    */
+    
+    if (selected.version.length > 0)
+      selected.platform =
+        selected.version.find(v => v.platform == this.input.platform);
+    
+    this.available.projects = available.projects.map(p => p.name);
+    this.available.versions = available.versions.map(v => v.version);
+    this.available.platforms = selected.version.map(v => v.platform);
+    
+    this.input.project =
+      !selected.project ? "(select)" : selected.project.name;
+    this.input.version =
+      selected.version.length == 0 
+        ? "(select)" : selected.version[0].version;
+    this.input.platform =
+      !selected.platform ? "(select)" : selected.platform.platform;
+
   }
   
   generateAndSubmitBugReport = () => {
-    console.log(this.input);
-  }
-  
-  availableProjects() {
-    return this.getProjects(this.projectInfo);
-  };
-  
-  availableVersions() {
-    if (!this.input.project) return [];
-    return this.getVersions(this.projectInfo, this.input.project);
-  }
-  
-  availablePlatforms() {
-    if (!this.input.version) return [];
-    return this.getPlatforms(
-      this.projectInfo,
-      this.input.project,
-      this.input.version
-    );
-  }
-  
-  getProjects(projectInfo) {
-    return projectInfo.map(project => project.name);
-  }
-  
-  getVersions(projectInfo, project) {
-    project = this.alistFind(projectInfo, "name", project);
-    if (!project) return [];
-      return project.versions.map(version => version.version);
-  }
-  
-  getPlatforms(projectInfo, project, version) {
-    project = this.alistFind(projectInfo, "name", project);
-    if (!project) return [];
-    return project.versions.reduce((platforms, elem) => {
-      if (elem.version == version) platforms.push(elem.platform);
-      return platforms;
-    }, []);
+    
   }
   
 }

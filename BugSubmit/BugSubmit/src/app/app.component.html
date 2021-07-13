@@ -9,29 +9,28 @@
   <input type="text" [disabled]="!ready" />
   
   <label>Project</label>
-  <select class="full" [disabled]="!ready">
-    <option value="null">(select)</option>
-    <option *ngFor="let project of availableProjects()">
+  <select [(ngModel)]="input.project" (change)="updateAvailables()"
+      class="full" [disabled]="!ready || available.projects.length == 0">
+    <option>(select)</option>
+    <option *ngFor="let project of available.projects">
       {{ project }}
     </option>
   </select>
   <label>Version</label>
-  <select [disabled]="!ready">
-    <option value="null">(select)</option>
-    <!--
-    <option *ngFor="let version of availableVersions()">
+  <select [(ngModel)]="input.version" (change)="updateAvailables()"
+      [disabled]="!ready || available.versions.length == 0">
+    <option>(select)</option>
+    <option *ngFor="let version of available.versions">
       {{ version }}
     </option>
-    -->
   </select>
   <label>Platform</label>
-  <select [disabled]="!ready">
-    <option value="null">(select)</option>
-    <!--
-    <option *ngFor="let platform of availablePlatforms()">
+  <select [(ngModel)]="input.platform" (change)="updateAvailables()"
+      [disabled]="!ready || available.platforms.length == 0">
+    <option>(select)</option>
+    <option *ngFor="let platform of available.platforms">
       {{ platform }}
     </option>
-    -->
   </select>
   
   <label>Summary</label>
